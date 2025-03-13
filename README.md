@@ -2,10 +2,7 @@
 
 <h2>Description</h2>
 
-<!--We know:
-IP segment: 10.1.17.0/24    which means the range is from 10.1.17.0 - 10.1.17.255
-LAN gateway = 10.1.17.0
-LAN Broadcast address = 10.1.17.255-->
+In this analysis, I examined network traffic within the IP segment 10.1.17.0/24, which has a range of 10.1.17.0 - 10.1.17.255. Knowing the CIDR notation (/24), I determined the subnet range, LAN gateway (10.1.17.0), and LAN broadcast address (10.1.17.255). The scenario involves an employee who downloaded a suspicious file and is suspected of communicating with a Command and Control (C2) server. My goal was to identify any unusual traffic patterns or connections to external IPs that could indicate data exfiltration or C2 communication. <br />
 
 <h2>Languages and Utilities Used</h2>
 
