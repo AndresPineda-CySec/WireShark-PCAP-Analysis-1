@@ -49,3 +49,10 @@ Specifying a string filter to show the results of the packets with "encrypted" i
 <br />
 <img src="https://github.com/AndresPineda-CySec/WireShark-PCAP-Analysis-1/blob/main/images/2025-03-13_11-05.png?raw=true" height="100%" width="100%"/> <br />
 Once again, I applied the same filter as before but updated the IP to "45.125.66.252." Once I have all traffic involving the suspicious IP address, I right-click on the first frame and open the "TCP Stream" window. In the new window, I again see a self-signed Certificate, but this time, there is also a "JDOWNGRD" above the self-signed certificate. This is extremely dangerous because it resembles a downgrade attack.
+<br />
+<br />
+Now, it's time to check IP address 5.252.153.241. I start by applying the filter "ip.addr == 5.252.153.241," to see traffic involving only 5.252.153.241. Once again I see the victim IP, 10.1.17.215, being communicated with.
+<br />
+<br />
+<img src="https://github.com/AndresPineda-CySec/WireShark-PCAP-Analysis-1/blob/main/images/mal1.png?raw=true" height="100%" width="100%"/> <br />
+I then right-click an HTTP frame, select "follow" then select "HTTP Stream." This provides the first hard evidence of a C2 server and data exfiltration, proving that the 10.1.17.215 is the infected host. Inside the HTTP Stream I found an Indicator of compromise (IOC); a PowerShell script that facilitates data exfiltration by sending logs to a remote server. The script creates a directory named "jsLeow" and stores a malicious file called "skqllz.ps1" inside it. It constructs an upload URL by appending stolen data to a predefined variable and uses the "System.Net.WebClient" object to exfiltrate the information via HTTP requests. The presence of obfuscated PowerShell commands, encoded payloads, and suspicious directory creation strongly indicates malicious activity designed to evade detection while maintiaining persistence on the compromised system.  
