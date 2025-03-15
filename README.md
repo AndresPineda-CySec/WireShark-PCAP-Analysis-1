@@ -92,3 +92,10 @@ After thoroughly reviewing the remaining IP addresses that the infected host com
 <br />
 <h3 align="center">The Infected Host:</h3>
 <p align="center">
+<img src="https://github.com/AndresPineda-CySec/WireShark-PCAP-Analysis-1/blob/main/images/hostInfo.png?raw=true" height="100%" width="100%"/> <br />
+In order to enumerate the infected host I apply the filter "ip.src == 10.1.17.215 && kerberos" to only view traffic where the infected host is the source address and is running kerberos protocol. I then look for a request packet in order to get information on the host. I select frame 250 and examine the packet details and learn the Infected hosts name is "DEKTOP-L8C5GSJ" and the mac address is "00:d0:b7:26:4a:74." <br />
+<br />
+<br />
+<img src="https://github.com/AndresPineda-CySec/WireShark-PCAP-Analysis-1/blob/main/images/hostName.png?raw=true" height="100%" width="100%"/> <br />
+I then open the TCP Stream for frame 250 and learn the users Windows account name is "shutchenson."<br />
+
