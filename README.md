@@ -59,6 +59,10 @@ Now, it's time to check IP address 5.252.153.241. I start by applying the filter
 I then right-click an HTTP frame, select "follow" then select "HTTP Stream." This provides the first hard evidence of a C2 server and data exfiltration, proving that the 10.1.17.215 is the infected host. Inside the HTTP Stream I found an Indicator of compromise (IOC); a PowerShell script that facilitates data exfiltration by sending logs to a remote server. The script creates a directory named "jsLeow" and stores a malicious file called "skqllz.ps1" inside it. It constructs an upload URL by appending stolen data to a predefined variable and uses the "System.Net.WebClient" object to exfiltrate the information via HTTP requests. The presence of obfuscated PowerShell commands, encoded payloads, and suspicious directory creation strongly indicates malicious activity designed to evade detection while maintiaining persistence on the compromised system.<br />
 <br />
 <br />
+<br />
+<br />
+<h3 align="center">Checking other IP Addresses with unusually high traffic:</h3>
+<p align="center">
 The next IP's I need to check are 82.221.136.26, 23.55.125.176, and 10.1.17.2.
 <br />
 <br />
@@ -68,7 +72,23 @@ The first IP address I’ll examine from the three is 82.221.136.26. Immediately
 <br />
 <img src="https://github.com/AndresPineda-CySec/WireShark-PCAP-Analysis-1/blob/main/images/whois.png?raw=true" height="100%" width="100%"/> <br />
 To further prove the domain is malicious, I used the command "whois" in my linux terminal, to view key information about the IP, further proving this IP does not belong to google.<br />
-
-
-
-
+<br />
+<br /> 
+While the IP is malicious, I believe it only houses the malicious download and is not a C2 server IP.<br />
+<br />
+<br />
+The IP address 23.55.125.176 does not seem malicious, but may have been compromised due to its communication with the infected host. It seems as though 10.1.17.215 was attempting to exfiltrate data from a azure.microsoft server.<br />
+now the next IP I will review is 10.1.17.2; a local host on the same network.<br />
+<br />
+<br />
+<img src="https://github.com/AndresPineda-CySec/WireShark-PCAP-Analysis-1/blob/main/images/2025-03-14_09-55.png?raw=true" height="100%" width="100%"/> <br />
+Once filtered to only show traffic involving the IP address 10.1.17.2, I found that 10.1.17.215 has been communicating with this host. It appears the infected host has been requesting information about the database, specifically querying for sensitive data. The communication includes multiple requests to access database records, which could indicate an attempt to exfiltrate or manipulate data. The nature of these requests, coupled with the unusual behavior observed from the originating host, suggests that it may be compromised or involved in malicious activity.<br />
+<br />
+<br />
+After thoroughly reviewing the remaining IP addresses that the infected host communicated with, I determined that all interactions were focused on retrieving information. None of the other IP addresses exhibited any signs of malicious activity.<br />
+<br />
+<br />
+<br />
+<br />
+<h3 align="center">The Infected Host:</h3>
+<p align="center">
