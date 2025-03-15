@@ -2,11 +2,12 @@
 
 <h2>Description</h2>
 
-In this analysis, I examined network traffic within the IP LAN segment 10.1.17.0/24, which has a range of 10.1.17.0 - 10.1.17.255. I also know the LAN gateway is 10.1.17.0 and the LAN broadcast address is 10.1.17.255. The scenario involves an employee who downloaded a suspicious file from a supposed "google authenicator" website and is suspected of communicating with a Command and Control (C2) server. My goal was to identify any unusual traffic patterns or connections to external IPs that could indicate data exfiltration or C2 communication. <br />
+In this analysis, I examined network traffic within the IP LAN segment 10.1.17.0/24, which has a range of 10.1.17.0 - 10.1.17.255. I also know the LAN gateway is 10.1.17.0, and the LAN broadcast address is 10.1.17.255. The scenario involves an employee who downloaded a suspicious file from a supposed "Google authenticator" website and is suspected of communicating with a Command and Control (C2) server. My goal was to identify any unusual traffic patterns or connections to external IPs that could indicate data exfiltration or C2 communication. <br />
 
 <h2>Languages and Utilities Used</h2>
 
-- <b>WireShark</b> 
+- <b>WireShark</b>
+- <b>Linux Terminal</b> 
 
 <h2>Environments Used</h2>
 
@@ -14,12 +15,12 @@ In this analysis, I examined network traffic within the IP LAN segment 10.1.17.0
 
 <h2>Skills Demonstrated</h2>
 
-- <b></b>
-- <b></b>
-- <b></b>
-- <b></b>
-- <b></b>
-- <b></b>
+- <b>Network Traffic Analysis</b>
+- <b>Packet Filtering</b>
+- <b>Forensic Analysis</b>
+- <b>Incident Identification</b>
+- <b>Exfiltration Detection</b>
+- <b>Troubleshooting</b>
 
 <h2>Project Walk-Through:</h2>
 
@@ -77,7 +78,7 @@ To further prove the invalidity of the domain, I used the command "whois" in my 
 While the IP is malicious, it only spoofs the user into downloading a malicious file and is not one of the C2 server IP addresses.<br />
 <br />
 <br />
-The IP address 23.55.125.176 does not seem malicious but may have been compromised due to its communication with the infected host. the conversation between 10.1.17.215 and 23.55.125.176 seems to be an attempt to exfiltrate data from an Azure.microsoft server.<br />
+The IP address 23.55.125.176 does not seem malicious but may have been compromised due to its communication with the infected host. the conversation between 10.1.17.215 and 23.55.125.176 is an attempt to exfiltrate data from an Azure.microsoft server.<br />
 The next IP I will review is 10.1.17.2, a local host on the network.<br />
 <br />
 <br />
@@ -93,7 +94,7 @@ After thoroughly reviewing the remaining IP addresses the infected host communic
 <h3 align="center">The Infected Host:</h3>
 <p align="center">
 <img src="https://github.com/AndresPineda-CySec/WireShark-PCAP-Analysis-1/blob/main/images/hostInfo.png?raw=true" height="100%" width="100%"/> <br />
-In order to enumerate the infected host, I apply the filter "ip.src == 10.1.17.215 && kerberos" to only view traffic where the infected host is the source address and is running any Kerberos related protocol. I then look for a request packet in order to get information on the host. I selected frame 250 to examine the packet details and learn that the Infected host's name is "DESKTOP-L8C5GSJ," and the MAC address is "00:d0:b7:26:4a:74." <br />
+To identify the infected host, I applied the filter "ip.src == 10.1.17.215 && kerberos" in Wireshark, narrowing the results to traffic where the compromised machine is the source and involved in Kerberos-related communication. I then searched for a request packet containing host identification details. I examined frame 250 and found that the infected host's name is "DESKTOP-L8C5GSJ", and its MAC address is 00:d0:b7:26:4a:74. <br />
 <br />
 <br />
 <img src="https://github.com/AndresPineda-CySec/WireShark-PCAP-Analysis-1/blob/main/images/hostName.png?raw=true" height="100%" width="100%"/> <br />
@@ -104,6 +105,6 @@ I then opened the TCP Stream for frame 250 and learned the user's Windows accoun
 <br />
 <h3 align="center">Conclusion:</h3>
 <p align="center">
-Through my investigation, I discovered the Infected host whose IP is 10.1.17.215, MAC address is 00:d0:b7:26:4a:74, the hostname is DESKTOP-L8C5GSJ, and Windows account user name is shutchenson. I also found the three IP addresses acting as C2 servers: 45.125.66.32, 45.125.66.252, and 5.252.153.241. I found the IP of a fake Google authenticator website and the domain name, which were 82.221.136.26 and authenticatoor.org. I also determined that the IP was only used for downloading the malicious file and not for any exfiltration. I also examined other IP addresses that were communicating with the infected host to see if any other data was leaked, which there wasn't any.<br />
-My recommendation for this organization would be to immediately isolate both internal machines, 10.1.17.215 and 10.1.17.2, from the rest of the network. Preserve any evidence by following the order of volatility. I also recommend Employee training.<br />
+Through my investigation, I identified the infected host with the IP address 10.1.17.215, MAC address 00:d0:b7:26:4a:74, hostname DESKTOP-L8C5GSJ, and Windows account username shutchenson. Additionally, I uncovered three command and control (C2) servers communicating with the compromised machine: 45.125.66.32, 45.125.66.252, and 5.252.153.241. I also discovered a malicious phishing domain, authenticatoor.org, hosted at 82.221.136.26, which was masquerading as a Google Authenticator website. Network traffic analysis confirmed that this IP was used solely for downloading the malicious payload, with no evidence of data exfiltration. Furthermore, I examined other IP addresses communicating with the infected host to assess potential data leaks and found no indications of further compromise.<br />
+My recommendation for the organization is to immediately isolate the affected machines, 10.1.17.215 and 10.1.17.2, from the network to prevent further spread of the potential threat. This includes disabling network interfaces, revoking access permissions, and monitoring for any residual connections that may indicate persistence or ongoing malicious activity. Additionally, forensic evidence must be preserved by following the order of volatility and prioritizing the collection of live memory, system logs, and active network connections before capturing disk images. This ensures that crucial evidence is not lost and allows for a thorough investigation into the root cause of the compromise. Lastly, employee security awareness training should be implemented to reduce human-related security risks. Training should focus on recognizing phishing attempts, handling suspicious files, and following proper cybersecurity protocols to prevent similar incidents in the future..<br />
 
