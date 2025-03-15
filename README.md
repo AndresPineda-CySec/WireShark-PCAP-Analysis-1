@@ -23,7 +23,7 @@ In this analysis, I examined network traffic within the IP LAN segment 10.1.17.0
 
 <h2>Project Walk-Through:</h2>
 
-<h3 align="center">Identifying the C2 IP Addresses:</h3>
+<h3 align="center">Identifying the C2 Server IP Addresses:</h3>
 <p align="center">
 <br />
 <br />
@@ -93,9 +93,17 @@ After thoroughly reviewing the remaining IP addresses that the infected host com
 <h3 align="center">The Infected Host:</h3>
 <p align="center">
 <img src="https://github.com/AndresPineda-CySec/WireShark-PCAP-Analysis-1/blob/main/images/hostInfo.png?raw=true" height="100%" width="100%"/> <br />
-In order to enumerate the infected host I apply the filter "ip.src == 10.1.17.215 && kerberos" to only view traffic where the infected host is the source address and is running kerberos protocol. I then look for a request packet in order to get information on the host. I select frame 250 and examine the packet details and learn the Infected hosts name is "DEKTOP-L8C5GSJ" and the mac address is "00:d0:b7:26:4a:74." <br />
+In order to enumerate the infected host I apply the filter "ip.src == 10.1.17.215 && kerberos" to only view traffic where the infected host is the source address and is running kerberos protocol. I then look for a request packet in order to get information on the host. I select frame 250 and examine the packet details and learn the Infected hosts name is "DESKTOP-L8C5GSJ" and the mac address is "00:d0:b7:26:4a:74." <br />
 <br />
 <br />
 <img src="https://github.com/AndresPineda-CySec/WireShark-PCAP-Analysis-1/blob/main/images/hostName.png?raw=true" height="100%" width="100%"/> <br />
-I then open the TCP Stream for frame 250 and learn the users Windows account name is "shutchenson."<br />
+I then open the TCP Stream for frame 250 and learn the users Windows account user name is "shutchenson."<br />
+<br />
+<br />
+<br />
+<br />
+<h3 align="center">Conclusion:</h3>
+<p align="center">
+Through my investigation I discovered the Infected host whose IP is 10.1.17.215, MAC address is 00:d0:b7:26:4a:74, host name is DESKTOP-L8C5GSJ, and Windows account user name is shutchenson. I also found the three C2 servers IP addresses: 45.125.66.32, 45.125.66.252, and 5.252.153.241. I found the IP of fake google authenticator website and the domain name: 82.221.136.26 and authenticatoor.org. I also determined that the IP was only used for the download of the malicious file and not used for any exfiltration. I also examined other IP addresses that were communicating with the infected host to see if any other data was leaked, which there waasn't any.<br />
+My recommendation for this organization would be to immediately isolate both internal machines, 10.1.17.215 and 10.1.17.2, from the rest of the network. Preserve any evidence by following the order of volatility. I would also recommend Employee training.<br />
 
